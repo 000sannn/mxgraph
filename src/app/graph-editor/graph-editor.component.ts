@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef, AfterViewInit } from "@angular/core";
 import MX from "mxgraph";
-import { disableSelect, isCollision } from "../../utils";
+import { disableSelect, insertEdgeByCollision } from "../../utils";
 const {
   mxGraph,
   mxEvent,
@@ -33,18 +33,21 @@ export class GraphEditorComponent implements AfterViewInit {
     try {
       const parent = graph.getDefaultParent();
       graph.getModel().beginUpdate();
-      for (let i = 0; i < 100; i += 10) {
+      for (let i = 0; i < 500; i += 10) {
         const vertex = graph.insertVertex(
           parent,
           null,
           node,
-          x + i,
-          y + i,
+          Math.random() * window.innerWidth,
+          Math.random() * window.innerHeight,
           w,
           h
         );
         vertex.setValue(text);
+        console.log(vertex);
       }
+      //   const vertex = graph.insertVertex(parent, null, node, x, y, w, h);
+      //   vertex.setValue(text);
     } finally {
       graph.getModel().endUpdate();
     }
@@ -90,30 +93,13 @@ export class GraphEditorComponent implements AfterViewInit {
     });
 
     graph.addListener(mxEvent.CELLS_MOVED, (sender, evt) => {
-      console.log("moved");
       const movedCells = evt.getProperty("cells");
-      const ListCells = sender.getChildVertices(defaultGraphParent);
       let { dx, dy } = evt.properties;
-      for (const movedCell of movedCells) {
-        for (const cell of ListCells) {
-          if (cell.mxObjectId === movedCell.mxObjectId) {
-            continue;
-          }
 
-          const hasEdge =
-            movedCell.edges &&
-            movedCell.edges.find(c => c.target === cell || c.source === cell);
-          if (isCollision(cell.geometry, movedCell.geometry) === true) {
-            graph.getModel().beginUpdate();
-            if (Boolean(hasEdge) === false) {
-              graph.insertEdge(defaultGraphParent, null, "", movedCell, cell);
-            }
-            movedCell.getGeometry().translate(-dx, -dy);
-            graph.getModel().endUpdate();
-            graph.refresh();
-          }
-        }
-      }
+      //insert string on collision nodes
+      graph.getModel().beginUpdate();
+      insertEdgeByCollision(dx, dy, movedCells, graph);
+      graph.getModel().endUpdate();
     });
   }
 }
