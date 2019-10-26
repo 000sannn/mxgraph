@@ -1,13 +1,25 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>MxgraphLab01</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-</head>
-<body>
-  <app-root></app-root>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <base href="/" />
+    <title>{{ title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  </head>
+  <body>
+    <script>
+      /** config mxgraph */
+      let mxResourceExtension = false;
+      let mxLoadStylesheets = false;
+      let mxLoadResources = false;
+      let mxForceIncludes = false;
+      let minX = 0;
+      let minY = 0;
+      let maxX = window.innerWidth;
+      let maxY = window.innerHeight;
+    </script>
+
+    <app-root></app-root>
+  </body>
 </html>
