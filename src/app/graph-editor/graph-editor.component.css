@@ -1,4 +1,21 @@
+.editor {
+    display: flex;
+    width  : 100%;
+    height : 100%;
+}
+
+
+.editor-outline {
+    flex: 0 0 auto;
+}
+
 .graph-area {
-    width : 100%;
-    height: 100%;
+    width           : 100%;
+    height          : 100%;
+    flex            : 0 0 70%;
+    overflow        : hidden;
+    cursor          : default;
+    position        : relative;
+    touch-action    : none;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDYgTCAyNCA2IE0gNiAwIEwgNiAyNCBNIDAgMTIgTCAyNCAxMiBNIDEyIDAgTCAxMiAyNCBNIDAgMTggTCAyNCAxOCBNIDE4IDAgTCAxOCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTBlMGUwIiBvcGFjaXR5PSIwLjIiIHN0cm9rZS13aWR0aD0iMSIvPjxwYXRoIGQ9Ik0gMjQgMCBMIDAgMCAwIDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGUwZTAiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==');
 }

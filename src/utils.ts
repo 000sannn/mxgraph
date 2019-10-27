@@ -38,13 +38,10 @@ export function getCellsHadCollision(movedCell, checkCells) {
 }
 
 export function getCellsDontHaveEdge(movedCell, checkCells) {
-
     return checkCells.filter(cell => {
         const hasEdge =
             movedCell.edges &&
-            movedCell.edges.find(
-                c => c.target === cell || c.source === cell
-            );
+            movedCell.edges.find(c => c.target === cell || c.source === cell);
         return Boolean(hasEdge) === false;
     });
 }
@@ -53,13 +50,22 @@ export function insertEdgeByCollision(dx, dy, movedCells, graph) {
     const defaultGraphParent = graph.getDefaultParent();
     const allCellsInGraph = graph.getChildVertices(defaultGraphParent);
     for (const movedCell of movedCells) {
-        const cellsHadCollision = getCellsHadCollision(movedCell, allCellsInGraph);
-        const cellsDontHaveEdge = getCellsDontHaveEdge(movedCell, cellsHadCollision);
-        for (const cell of cellsDontHaveEdge) {
-            graph.insertEdge(defaultGraphParent, null, "", movedCell, cell);
-        }
+        const cellsHadCollision = getCellsHadCollision(
+            movedCell,
+            allCellsInGraph
+        );
+
         if (cellsHadCollision.length > 0) {
+            const cellsDontHaveEdge = getCellsDontHaveEdge(
+                movedCell,
+                cellsHadCollision
+            );
+            graph.getModel().beginUpdate();
             movedCell.getGeometry().translate(-dx, -dy);
+            for (const cell of cellsDontHaveEdge) {
+                graph.insertEdge(defaultGraphParent, null, "", movedCell, cell);
+            }
+            graph.getModel().endUpdate();
         }
     }
 }
