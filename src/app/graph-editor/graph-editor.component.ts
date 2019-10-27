@@ -69,8 +69,12 @@ export class GraphEditorComponent implements AfterViewInit {
             this.outline.nativeElement,
             0,
             0,
-            500
+            graphRoot.innerWidth / 10,
+            graphRoot.innerHeight / 10,
+            true,
+            true
         );
+
         const graph = new mxGraph(graphRoot);
         const defaultNodeWidth = 130;
         const defaultNodeHeight = 40;
@@ -87,10 +91,14 @@ export class GraphEditorComponent implements AfterViewInit {
         graph.keyHandler = new mxDefaultKeyHandler(graph);
         graph.morph = new mxMorphing(graph, 20, 1.2, 20);
 
-        outlineWindow.setResizable(false);
-        outlineWindow.setMinimizable(false);
-        outlineWindow.setMaximizable(false);
-        outlineWindow.setClosable(false);
+        outlineWindow.setResizable(true);
+        outlineWindow.setMinimizable(true);
+        outlineWindow.setMaximizable(true);
+        outlineWindow.setClosable(true);
+        outlineWindow.closeImage = "../../assets/close_24px.svg";
+        outlineWindow.minimizeImage = "../../assets/minimize_24px.svg";
+        outlineWindow.maximizeImage = "../../assets/maximize_24px.svg";
+        outlineWindow.normalizeImage = "../../assets/resize.gif";
         outlineWindow.show();
 
         graph
@@ -152,8 +160,10 @@ export class GraphEditorComponent implements AfterViewInit {
 
         // console.log(wnd);
         graphRoot.addEventListener("dblclick", evt => {
-            const midX: number = evt.clientX - defaultNodeWidth / 2;
-            const midY: number = evt.clientY - defaultNodeHeight / 2;
+            const mousePos = graph.getPointForEvent(evt, false);
+            const { x, y } = mousePos;
+            const midX: number = x - defaultNodeWidth / 2;
+            const midY: number = y - defaultNodeHeight / 2;
             this.addNode(
                 defaultText,
                 midX,
@@ -162,7 +172,6 @@ export class GraphEditorComponent implements AfterViewInit {
                 defaultNodeHeight
             );
         });
-
         graph.addListener(mxEvent.CELLS_MOVED, (sender, evt) => {
             const movedCells = evt.getProperty("cells");
             let { dx, dy } = evt.properties;
